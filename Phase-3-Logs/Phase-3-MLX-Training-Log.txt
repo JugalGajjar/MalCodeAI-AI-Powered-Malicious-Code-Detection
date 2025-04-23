@@ -1,0 +1,20 @@
+Calling `python -m mlx_lm.lora...` directly is deprecated. Use `mlx_lm.lora...` or `python -m mlx_lm lora ...` instead.
+Loading pretrained model
+Loading datasets
+Training
+Trainable parameters: 0.010% (0.307M/3085.939M)
+Starting training..., iters: 100
+Iter 1: Val loss 1.073, Val took 9.903s
+Iter 10: Train loss 1.091, Learning Rate 2.000e-05, It/sec 0.196, Tokens/sec 691.734, Trained Tokens 35227, Peak mem 17.550 GB
+Iter 20: Train loss 1.022, Learning Rate 2.000e-05, It/sec 0.206, Tokens/sec 689.333, Trained Tokens 68707, Peak mem 17.550 GB
+Iter 30: Train loss 0.910, Learning Rate 2.000e-05, It/sec 0.198, Tokens/sec 674.247, Trained Tokens 102704, Peak mem 17.550 GB
+Iter 40: Train loss 0.770, Learning Rate 2.000e-05, It/sec 0.202, Tokens/sec 701.071, Trained Tokens 137414, Peak mem 17.550 GB
+Iter 50: Train loss 0.661, Learning Rate 2.000e-05, It/sec 0.198, Tokens/sec 693.728, Trained Tokens 172518, Peak mem 17.550 GB
+Iter 60: Train loss 0.574, Learning Rate 2.000e-05, It/sec 0.207, Tokens/sec 693.921, Trained Tokens 206121, Peak mem 17.550 GB
+Iter 70: Train loss 0.447, Learning Rate 2.000e-05, It/sec 0.202, Tokens/sec 692.288, Trained Tokens 240345, Peak mem 17.550 GB
+Iter 80: Train loss 0.401, Learning Rate 2.000e-05, It/sec 0.202, Tokens/sec 696.081, Trained Tokens 274828, Peak mem 17.550 GB
+Iter 90: Train loss 0.321, Learning Rate 2.000e-05, It/sec 0.208, Tokens/sec 705.940, Trained Tokens 308780, Peak mem 17.550 GB
+Iter 100: Val loss 0.267, Val took 9.883s
+Iter 100: Train loss 0.288, Learning Rate 2.000e-05, It/sec 0.196, Tokens/sec 682.254, Trained Tokens 343535, Peak mem 17.550 GB
+Iter 100: Saved adapter weights to adapters/adapters.safetensors and adapters/0000100_adapters.safetensors.
+Saved final weights to adapters/adapters.safetensors.

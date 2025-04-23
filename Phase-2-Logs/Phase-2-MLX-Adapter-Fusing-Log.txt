@@ -1,0 +1,2 @@
+Calling `python -m mlx_lm.fuse...` directly is deprecated. Use `mlx_lm.fuse...` or `python -m mlx_lm fuse ...` instead.
+Loading pretrained model
