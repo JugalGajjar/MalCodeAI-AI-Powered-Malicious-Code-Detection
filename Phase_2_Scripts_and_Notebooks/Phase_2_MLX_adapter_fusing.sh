@@ -2,9 +2,9 @@
 
 # VARIABLES
 MODEL="Qwen/Qwen2.5-Coder-3B-Instruct"
-ADAPTER_PATH="Phase-2-Adapters"
-SAVE_DIR="./Phase-2-MLX-Fine-Tuned"
-OUTPUT_LOG_FILE="Phase-2-MLX-Adapter-Fusing-Log.txt"
+ADAPTER_PATH="Phase_1_Adapters_4e_LR"
+SAVE_DIR="./Phase_2_MLX_Fine_Tuned"
+OUTPUT_LOG_FILE="./Phase_2_Logs/Phase_2_MLX_adapter_fusing_log_lr4e.txt"
 
 # COMMAND
 python -m mlx_lm.fuse \

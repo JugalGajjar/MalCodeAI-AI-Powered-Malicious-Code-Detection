@@ -1,0 +1,92 @@
+Component Type: IMPORT_STATEMENT
+Component Name: flask
+Component Code: 
+from flask import Flask, request, session, redirect, url_for, render_template_string, send_from_directory
+Component Description: Imports Flask, request, session, redirect, url_for, render_template_string, and send_from_directory from the Flask library.
+Vulnerabilities:
+ - No vulnerabilities found.
+--------------------------------------------------
+Component Type: IMPORT_STATEMENT
+Component Name: os
+Component Code: 
+import os
+Component Description: Imports the os module for file system operations.
+Vulnerabilities:
+ - No vulnerabilities found.
+--------------------------------------------------
+Component Type: IMPORT_STATEMENT
+Component Name: uuid
+Component Code: 
+import uuid
+Component Description: Imports the uuid module for generating unique identifiers.
+--------------------------------------------------
+Component Type: METHOD_DEFINITION
+Component Name: FlaskApp.login
+Component Description: Login route handling user authentication, session management, and redirecting to the notes page if credentials are valid.
+Vulnerabilities:
+ - Vulnerabilities found!
+ - Number of vulnerabilities: 1
+ - Vulnerability Details:
+   - Type: Broken Authentication
+   - CVE Score: 7.5
+   - Exploitation Methods:
+     - 1. Supply valid username and a long password (e.g., 'a' * 10000).
+2. Server overloads resources or crashes due to excessive computation or I/O operations.
+     - 1. Inject SQL injection payloads into the password field.
+2. Bypass authentication by exploiting a weak password policy or using a dictionary attack.
+     - 1. Use a timing attack to determine valid credentials by measuring authentication response times.
+   - Developer Fixes:
+     - Implement multi-factor authentication (MFA) to add an extra layer of security.
+     - Use secure password storage and validation practices (e.g., bcrypt, Argon2).
+     - Validate and sanitize all user inputs before processing them.
+--------------------------------------------------
+Component Type: METHOD_DEFINITION
+Component Name: notes_page
+Component Code: 
+def notes_page(self):
+        if 'username' not in session:
+            return redirect(url_for('login'))
+Component Description: Notes page route displaying user notes, requiring login and rendering the notes template with user-specific data.
+Vulnerabilities:
+ - No vulnerabilities found.
+--------------------------------------------------
+Component Type: METHOD_DEFINITION
+Component Name: FlaskApp.logout
+Component Description: Logout route clearing the session and redirecting to the login page.
+Vulnerabilities:
+ - No vulnerabilities found.
+--------------------------------------------------
+Component Type: METHOD_DEFINITION
+Component Name: FlaskApp.uploaded_file
+Component Description: File serving route for uploaded files, allowing direct access to files in the uploads folder.
+Vulnerabilities:
+ - Vulnerabilities found!
+ - Number of vulnerabilities: 2
+ - Vulnerability Details:
+   - Type: Directory Traversal
+   - CVE Score: 7.6
+   - Exploitation Methods:
+     - 1. Supply filename '../../app.py'.
+2. Server reads critical code files.
+3. Disclosure of sensitive system information.
+     - 1. Traverse to application source code files.
+2. Steal intellectual property or discover vulnerabilities.
+   - Developer Fixes:
+     - Validate and sanitize user-supplied filenames before serving files.
+     - Restrict file access strictly within allowed directories.
+     - Reject filenames containing '../' or similar traversal sequences.
+   - Type: Information Exposure
+   - CVE Score: 6.5
+   - Exploitation Methods:
+     - 1. Serve .env files with API keys and credentials.
+     - 2. Serve configuration backups revealing sensitive internal data.
+   - Developer Fixes:
+     - Ensure that sensitive files are not stored alongside user-uploaded data.
+     - Apply server-side file access control mechanisms.
+--------------------------------------------------
+Component Type: METHOD_DEFINITION
+Component Name: FlaskApp.run
+Component Description: Method to start the Flask application server.
+Vulnerabilities:
+ - No vulnerabilities found.
+--------------------------------------------------

@@ -1,0 +1,218 @@
+Component Type: IMPORT_STATEMENT
+Component Name: javax.inject.Inject
+Component Code: 
+import javax.inject.Inject
+Component Description: Imports the @Inject annotation for dependency injection.
+--------------------------------------------------
+Component Type: IMPORT_STATEMENT
+Component Name: play.api._
+Component Code: 
+import play.api._
+Component Description: Imports Play Framework's core modules.
+--------------------------------------------------
+Component Type: IMPORT_STATEMENT
+Component Name: play.api.mvc._
+Component Code: 
+import play.api.mvc._
+Component Description: Imports Play Framework's MVC components.
+--------------------------------------------------
+Component Type: IMPORT_STATEMENT
+Component Name: play.api.libs.json._
+Component Code: 
+import play.api.libs.json._
+Component Description: Imports Play Framework's JSON handling utilities.
+Vulnerabilities:
+ - No vulnerabilities found.
+--------------------------------------------------
+Component Type: IMPORT_STATEMENT
+Component Name: play.api.db.slick.DatabaseConfigProvider
+Component Code: 
+import play.api.db.slick.DatabaseConfigProvider
+Component Description: Imports the DatabaseConfigProvider for Slick database configuration.
+Vulnerabilities:
+ - No vulnerabilities found.
+--------------------------------------------------
+Component Type: IMPORT_STATEMENT
+Component Name: slick.jdbc.JdbcProfile
+Component Code: 
+import slick.jdbc.JdbcProfile
+Component Description: Imports the JdbcProfile for Slick database interaction.
+Vulnerabilities:
+ - No vulnerabilities found.
+--------------------------------------------------
+Component Type: IMPORT_STATEMENT
+Component Name: scala.concurrent.{ExecutionContext, Future}
+Component Code: 
+import scala.concurrent.{ExecutionContext, Future}
+Component Description: Imports Scala's concurrency utilities for handling asynchronous operations.
+Vulnerabilities:
+ - No vulnerabilities found.
+--------------------------------------------------
+Component Type: IMPORT_STATEMENT
+Component Name: java.util.Base64
+Component Code: 
+import java.util.Base64
+Component Description: Imports Java's Base64 encoder/decoder for encoding/decoding strings.
+Vulnerabilities:
+ - No vulnerabilities found.
+--------------------------------------------------
+Component Type: IMPORT_STATEMENT
+Component Name: javax.crypto.Cipher
+Component Code: 
+import javax.crypto.Cipher
+Component Description: Imports Java's Cipher class for encryption/decryption operations.
+Vulnerabilities:
+ - No vulnerabilities found.
+--------------------------------------------------
+Component Type: IMPORT_STATEMENT
+Component Name: javax.crypto.spec.SecretKeySpec
+Component Code: 
+import javax.crypto.spec.SecretKeySpec
+Component Description: Imports Java's SecretKeySpec class for specifying encryption keys.
+Vulnerabilities:
+ - No vulnerabilities found.
+--------------------------------------------------
+Component Type: IMPORT_STATEMENT
+Component Name: java.nio.charset.StandardCharsets
+Component Code: 
+import java.nio.charset.StandardCharsets
+Component Description: Imports Java's StandardCharsets for character encoding.
+--------------------------------------------------
+Component Type: IMPORT_STATEMENT
+Component Name: java.nio.file.{Files, Paths}
+Component Description: Imports Java's Files and Paths classes for file system operations.
+Vulnerabilities:
+ - No vulnerabilities found.
+--------------------------------------------------
+Component Type: CLASS_DEFINITION
+Component Name: ApiController
+Component Code: 
+class ApiController @Inject()(
+  cc: ControllerComponents,
+  dbConfigProvider: DatabaseConfigProvider
+)(implicit ec: ExecutionContext) extends AbstractController(cc) {
+
+Component Description: Main controller class with dependency injection and implicit execution context.
+Vulnerabilities:
+ - No vulnerabilities found.
+--------------------------------------------------
+Component Type: METHOD_DEFINITION
+Component Name: ApiController.encrypt
+Component Code: 
+def encrypt(data: String): String = {
+    val keySpec = new SecretKeySpec(SECRET_KEY, "AES")
+    cipher.init(Cipher.ENCRYPT_MODE, keySpec)
+    Base64.getEncoder.encodeToString(cipher.doFinal(data.getBytes(StandardCharsets.UTF_8)))
+  }
+Component Description: Method to encrypt a string using AES encryption.
+Vulnerabilities:
+ - No vulnerabilities found.
+--------------------------------------------------
+Component Type: METHOD_DEFINITION
+Component Name: ApiController.decrypt
+Component Code: 
+def decrypt(encrypted: String): String = {
+    val keySpec = new SecretKeySpec(SECRET_KEY, "AES")
+    cipher.init(Cipher.DECRYPT_MODE, keySpec)
+    new String(cipher.doFinal(Base64.getDecoder.decode(encrypted)), StandardCharsets.UTF_8)
+  }
+Component Description: Method to decrypt a string using AES decryption.
+Vulnerabilities:
+ - No vulnerabilities found.
+--------------------------------------------------
+Component Type: METHOD_DEFINITION
+Component Name: ApiController.login
+Component Description: Action method for handling user login, encrypting the user ID and returning a token.
+Vulnerabilities:
+ - Vulnerabilities found!
+ - Number of vulnerabilities: 3
+ - Vulnerability Details:
+   - Type: Insecure Deserialization
+   - CVE Score: 7.5
+   - Exploitation Methods:
+     - 1. Supply a malicious JSON payload that includes a deserialization vulnerability.
+2. Exploit the vulnerability to execute arbitrary code or gain unauthorized access.
+   - Developer Fixes:
+     - Validate and sanitize all deserialized inputs to prevent deserialization attacks.
+   - Type: Broken Authentication
+   - CVE Score: 6.5
+   - Exploitation Methods:
+     - 1. Guess valid usernames and passwords.
+2. Brute force attack to gain unauthorized access.
+   - Developer Fixes:
+     - Implement rate limiting and account lockout mechanisms to protect against brute force attacks.
+   - Type: Information Exposure
+   - CVE Score: 6.5
+   - Exploitation Methods:
+     - 1. Decrypt the token and reveal user IDs.
+2. Use the token to access other user data.
+   - Developer Fixes:
+     - Encrypt tokens using strong, unique keys and ensure proper key management.
+--------------------------------------------------
+Component Type: METHOD_DEFINITION
+Component Name: ApiController.getUserData
+Component Description: Action method for retrieving user data, decrypting the token to get the user ID and returning the user list.
+Vulnerabilities:
+ - Vulnerabilities found!
+ - Number of vulnerabilities: 3
+ - Vulnerability Details:
+   - Type: Insecure Deserialization
+   - CVE Score: 7.5
+   - Exploitation Methods:
+     - 1. Supply a maliciously crafted token that deserializes unsafe objects (e.g., eval() or unsafe code execution).
+     - 2. Exploit vulnerabilities in the deserialization library used (e.g., RCPGadget for Java).
+   - Developer Fixes:
+     - Validate and sanitize all deserialized inputs to prevent code execution or unsafe object creation.
+   - Type: Broken Authentication
+   - CVE Score: 6.5
+   - Exploitation Methods:
+     - 1. Guess valid tokens by trying common user IDs or known patterns.
+     - 2. Exploit misconfigured token validation to gain unauthorized access.
+   - Developer Fixes:
+     - Implement proper token validation and rotation strategies to prevent unauthorized access.
+   - Type: Information Exposure
+   - CVE Score: 6.5
+   - Exploitation Methods:
+     - 1. Decrypt tokens to reveal user IDs, allowing unauthorized access to user data.
+     - 2. Leak user data in error messages or logs.
+   - Developer Fixes:
+     - Encrypt tokens securely and only decrypt them when necessary to prevent unauthorized access.
+--------------------------------------------------
+Component Type: METHOD_DEFINITION
+Component Name: ApiController.downloadFile
+Component Code: 
+def downloadFile(filename: String) = Action {
+    // No path sanitization
+    val filePath = Paths.get(s"/var/files/$filename")
+    if (Files.exists(filePath)) {
+      Ok.sendFile(filePath.toFile)
+    } else {
+      NotFound("File not found")
+    }
+  }
+Component Description: Action method for downloading a file, without path sanitization.
+Vulnerabilities:
+ - Vulnerabilities found!
+ - Number of vulnerabilities: 2
+ - Vulnerability Details:
+   - Type: Path Traversal
+   - CVE Score: 7.6
+   - Exploitation Methods:
+     - 1. Supply filename '../../etc/passwd'.
+2. Server reads sensitive OS files.
+3. Disclosure of critical system information.
+     - 1. Traverse to application source code files.
+2. Steal intellectual property or discover vulnerabilities.
+   - Developer Fixes:
+     - Normalize and validate user-supplied paths.
+     - Restrict file access strictly within allowed directories.
+     - Reject filenames containing '../' or similar traversal sequences.
+   - Type: Information Exposure
+   - CVE Score: 6.5
+   - Exploitation Methods:
+     - 1. Download .env files with API keys and credentials.
+     - 2. Download configuration backups revealing sensitive internal data.
+   - Developer Fixes:
+     - Ensure that sensitive files are not stored alongside user-uploaded data.
+     - Apply server-side file access control mechanisms.
+--------------------------------------------------

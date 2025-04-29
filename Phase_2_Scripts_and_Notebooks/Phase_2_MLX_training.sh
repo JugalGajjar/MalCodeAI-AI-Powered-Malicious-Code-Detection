@@ -2,13 +2,13 @@
 
 # VARIABLES
 MODEL="Qwen/Qwen2.5-Coder-3B-Instruct"
-DATA="./Phase-2-Data"
-LR="2e-5"
+DATA="./Phase_2_Data"
+LR="4e-5"
 ITERATIONS="100"
 FINE_TUNE_TYPE="lora"
 MAX_SEQ_LEN="3072"
 NUM_LAYERS="6"
-OUTPUT_LOG_FILE="Phase-2-MLX-Training-Log.txt"
+OUTPUT_LOG_FILE="./Phase_2_Logs/Phase_2_MLX_training_log_lr4e.txt"
 
 # COMMAND
 python -m mlx_lm.lora \

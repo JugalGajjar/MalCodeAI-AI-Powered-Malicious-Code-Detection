@@ -301,6 +301,157 @@ if __name__ == "__main__":
 }
 """]
 
+few_shots["flask"] = [
+"""
+{
+    "programming_language": "PYTHON",
+    "components": [
+        {
+            "component_type": "IMPORT_STATEMENT",
+            "component_name": "flask",
+            "component_code": "from flask import Flask, request, session, redirect, url_for, render_template_string, send_from_directory",
+            "component_description": "Imports Flask, request, session, redirect, url_for, render_template_string, and send_from_directory from the Flask library."
+        },
+        {
+            "component_type": "IMPORT_STATEMENT",
+            "component_name": "os",
+            "component_code": "import os",
+            "component_description": "Imports the os module for file system operations."
+        },
+        {
+            "component_type": "IMPORT_STATEMENT",
+            "component_name": "uuid",
+            "component_code": "import uuid",
+            "component_description": "Imports the uuid module for generating unique identifiers."
+        },
+        {
+            "component_type": "CLASS_DEFINITION",
+            "component_name": "FlaskApp",
+            "component_code": "class FlaskApp:\n    def __init__(self):\n        self.app = Flask(__name__)\n        self.app.secret_key = 'supersecretkey'  # Very weak secret\n        self.app.config['UPLOAD_FOLDER'] = 'uploads'\n        self.app.debug = True  # Dangerous in production!\n\n        # In-memory storage\n        self.users = {\"admin\": \"password123\"}\n        self.notes = {}\n\n        # Ensure upload folder exists\n        os.makedirs(self.app.config['UPLOAD_FOLDER'], exist_ok=True)\n\n        # Templates\n        self.login_template = '''\n            <h2>Login</h2>\n            <form method=\"POST\">\n                Username: <input name=\"username\" required><br>\n                Password: <input name=\"password\" type=\"password\" required><br>\n                <button type=\"submit\">Login</button>\n            </form>\n        '''\n\n        self.notes_template = '''\n            <h2>Welcome {{ username }}</h2>\n            <a href=\"{{ url_for('logout') }}\">Logout</a> | \n            <a href=\"{{ url_for('upload') }}\">Upload Profile Picture</a>\n            <h3>Create Note</h3>\n            <form method=\"POST\" action=\"{{ url_for('add_note') }}\">\n                Title: <input name=\"title\" required><br>\n                Content: <textarea name=\"content\" required></textarea><br>\n                <button type=\"submit\">Add Note</button>\n            </form>\n\n            <h3>All Notes</h3>\n            {% for note in notes %}\n                <div style=\"border:1px solid black; margin:10px; padding:10px\">\n                    <h4>{{ note['title'] }}</h4>\n                    <p>{{ note['content'] }}</p>\n                </div>\n            {% endfor %}\n        '''\n\n        self.upload_template = '''\n            <h2>Upload Profile Picture</h2>\n            <form method=\"POST\" enctype=\"multipart/form-data\">\n                <input type=\"file\" name=\"profile_pic\" required><br>\n                <button type=\"submit\">Upload</button>\n            </form>\n            <a href=\"{{ url_for('notes_page') }}\">Back</a>\n        '''\n\n    def run(self):\n        self.app.run()"
+            "component_description": "Flask application class with methods for initializing the app, setting up routes, and running the server."
+        },
+        {
+            "component_type": "METHOD_DEFINITION",
+            "component_name": "FlaskApp.login",
+            "component_code": "def login(self):\n        if request.method == 'POST':\n            username = request.form['username']\n            password = request.form['password']\n            if username in self.users and self.users[username] == password:\n                session['username'] = username\n                session['token'] = str(uuid.uuid4())\n                return redirect(url_for('notes_page'))\n            else:\n                return \"<p>Invalid credentials!</p>\" + self.login_template\n        return self.login_template",
+            "component_description": "Login route handling user authentication, session management, and redirecting to the notes page if credentials are valid."
+        },
+        {
+            "component_type": "METHOD_DEFINITION",
+            "component_name": "FlaskApp.notes_page",
+            "component_code": "def notes_page(self):\n        if 'username' not in session:\n            return redirect(url_for('login'))\n        user_notes = self.notes.get(session['username'], [])\n        return render_template_string(self.notes_template, username=session['username'], notes=user_notes)",
+            "component_description": "Notes page route displaying user notes, requiring login and rendering the notes template with user-specific data."
+        },
+        {
+            "component_type": "METHOD_DEFINITION",
+            "component_name": "FlaskApp.add_note",
+            "component_code": "def add_note(self):\n        if 'username' not in session:\n            return redirect(url_for('login'))\n        title = request.form['title']\n        content = request.form['content']\n        note = {\"title\": title, \"content\": content}\n        self.notes.setdefault(session['username'], []).append(note)\n        return redirect(url_for('notes_page'))",
+            "component_description": "Add note route handling user input, storing notes in memory, and redirecting back to the notes page."
+        },
+        {
+            "component_type": "METHOD_DEFINITION",
+            "component_name": "FlaskApp.logout",
+            "component_code": "def logout(self):\n        session.clear()\n        return redirect(url_for('login'))",
+            "component_description": "Logout route clearing the session and redirecting to the login page."
+        },
+        {
+            "component_type": "METHOD_DEFINITION",
+            "component_name": "FlaskApp.upload",
+            "component_code": "def upload(self):\n        if 'username' not in session:\n            return redirect(url_for('login'))\n        if request.method == 'POST':\n            file = request.files['profile_pic']\n            if file:\n                filename = file.filename\n                file.save(os.path.join(self.app.config['UPLOAD_FOLDER'], filename))\n                return f\"<p>Uploaded successfully: {filename}</p><a href='{url_for('notes_page')}'>Back</a>\"\n        return render_template_string(self.upload_template)",
+            "component_description": "Upload profile picture route handling file uploads, saving them to the uploads folder, and redirecting back to the notes page."
+        },
+        {
+            "component_type": "METHOD_DEFINITION",
+            "component_name": "FlaskApp.uploaded_file",
+            "component_code": "def uploaded_file(self, filename):\n        return send_from_directory(self.app.config['UPLOAD_FOLDER'], filename)",
+            "component_description": "File serving route for uploaded files, allowing direct access to files in the uploads folder."
+        },
+        {
+            "component_type": "METHOD_DEFINITION",
+            "component_name": "FlaskApp.run",
+            "component_code": "def run(self):\n        self.app.run()",
+            "component_description": "Method to start the Flask application server."
+        }
+    ],
+    "overall_description": "A simple Flask web application featuring user authentication, note management, and file upload capabilities. The application uses in-memory storage for user credentials and notes, and provides basic security measures like session management and file uploads. The architecture is straightforward, with clear separation of concerns between routes, templates, and business logic."
+}
+""",
+"""
+{
+    "programming_language": "PYTHON",
+    "components": [
+        {
+            "component_type": "IMPORT_STATEMENT",
+            "component_name": "flask",
+            "component_code": "from flask import Flask, request, session, redirect, url_for, render_template_string, send_from_directory",
+            "component_description": "Imports Flask, request, session, redirect, url_for, render_template_string, and send_from_directory from the Flask library."
+        },
+        {
+            "component_type": "IMPORT_STATEMENT",
+            "component_name": "os",
+            "component_code": "import os",
+            "component_description": "Imports the os module for file system operations."
+        },
+        {
+            "component_type": "IMPORT_STATEMENT",
+            "component_name": "uuid",
+            "component_code": "import uuid",
+            "component_description": "Imports the uuid module for generating unique identifiers."
+        },
+        {
+            "component_type": "CLASS_DEFINITION",
+            "component_name": "FlaskApp",
+            "component_code": "class FlaskApp:\\n    def __init__(self):\\n        self.app = Flask(__name__)\\n        self.app.secret_key = 'supersecretkey'  # Very weak secret\\n        self.app.config['UPLOAD_FOLDER'] = 'uploads'\\n        self.app.debug = True  # Dangerous in production!\\n\\n        # In-memory storage\\n        self.users = {\\\"admin\\\": \\\"password123\\\"}\\n        self.notes = {}\\n\\n        # Ensure upload folder exists\\n        os.makedirs(self.app.config['UPLOAD_FOLDER'], exist_ok=True)\\n\\n        # Templates\\n        self.login_template = '''\\n            <h2>Login</h2>\\n            <form method=\\\"POST\\\">\\n                Username: <input name=\\\"username\\\" required><br>\\n                Password: <input name=\\\"password\\\" type=\\\"password\\\" required><br>\\n                <button type=\\\"submit\\\">Login</button>\\n            </form>\\n        '''\\n\\n        self.notes_template = '''\\n            <h2>Welcome {{ username }}</h2>\\n            <a href=\\\"{{ url_for('logout') }}\\\">Logout</a> | \\n            <a href=\\\"{{ url_for('upload') }}\\\">Upload Profile Picture</a>\\n            <h3>Create Note</h3>\\n            <form method=\\\"POST\\\" action=\\\"{{ url_for('add_note') }}\\\">\\n                Title: <input name=\\\"title\\\" required><br>\\n                Content: <textarea name=\\\"content\\\" required></textarea><br>\\n                <button type=\\\"submit\\\">Add Note</button>\\n            </form>\\n\\n            <h3>All Notes</h3>\\n            {% for note in notes %}\\n                <div style=\\\"border:1px solid black; margin:10px; padding:10px\\\">\\n                    <h4>{{ note['title'] }}</h4>\\n                    <p>{{ note['content'] }}</p>\\n                </div>\\n            {% endfor %}\\n        '''\\n\\n        self.upload_template = '''\\n            <h2>Upload Profile Picture</h2>\\n            <form method=\\\"POST\\\" enctype=\\\"multipart/form-data\\\">\\n                <input type=\\\"file\\\" name=\\\"profile_pic\\\" required><br>\\n                <button type=\\\"submit\\\">Upload</button>\\n            </form>\\n            <a href=\\\"{{ url_for('notes_page') }}\\\">Back</a>\\n        '''\\n\\n    def run(self):\\n        self.app.run()",
+            "component_description": "Flask application class with methods for initializing the app, setting up routes, and running the server."
+        },
+        {
+            "component_type": "METHOD_DEFINITION",
+            "component_name": "FlaskApp.login",
+            "component_code": "def login(self):\\n        if request.method == 'POST':\\n            username = request.form['username']\\n            password = request.form['password']\\n            if username in self.users and self.users[username] == password:\\n                session['username'] = username\\n                session['token'] = str(uuid.uuid4())\\n                return redirect(url_for('notes_page'))\\n            else:\\n                return \\\"<p>Invalid credentials!</p>\\\" + self.login_template\\n        return self.login_template",
+            "component_description": "Login route handling user authentication, session management, and redirecting to the notes page if credentials are valid."
+        },
+        {
+            "component_type": "METHOD_DEFINITION",
+            "component_name": "FlaskApp.notes_page",
+            "component_code": "def notes_page(self):\\n        if 'username' not in session:\\n            return redirect(url_for('login'))\\n        user_notes = self.notes.get(session['username'], [])\\n        return render_template_string(self.notes_template, username=session['username'], notes=user_notes)",
+            "component_description": "Notes page route displaying user notes, requiring login and rendering the notes template with user-specific data."
+        },
+        {
+            "component_type": "METHOD_DEFINITION",
+            "component_name": "FlaskApp.add_note",
+            "component_code": "def add_note(self):\\n        if 'username' not in session:\\n            return redirect(url_for('login'))\\n        title = request.form['title']\\n        content = request.form['content']\\n        note = {\\\"title\\\": title, \\\"content\\\": content}\\n        self.notes.setdefault(session['username'], []).append(note)\\n        return redirect(url_for('notes_page'))",
+            "component_description": "Add note route handling user input, storing notes in memory, and redirecting back to the notes page."
+        },
+        {
+            "component_type": "METHOD_DEFINITION",
+            "component_name": "FlaskApp.logout",
+            "component_code": "def logout(self):\\n        session.clear()\\n        return redirect(url_for('login'))",
+            "component_description": "Logout route clearing the session and redirecting to the login page."
+        },
+        {
+            "component_type": "METHOD_DEFINITION",
+            "component_name": "FlaskApp.upload",
+            "component_code": "def upload(self):\\n        if 'username' not in session:\\n            return redirect(url_for('login'))\\n        if request.method == 'POST':\\n            file = request.files['profile_pic']\\n            if file:\\n                filename = file.filename\\n                file.save(os.path.join(self.app.config['UPLOAD_FOLDER'], filename))\\n                return f\\\"<p>Uploaded successfully: {filename}</p><a href='{url_for('notes_page')}'>Back</a>\\\"\\n        return render_template_string(self.upload_template)",
+            "component_description": "Upload profile picture route handling file uploads, saving them to the uploads folder, and redirecting back to the notes page."
+        },
+        {
+            "component_type": "METHOD_DEFINITION",
+            "component_name": "FlaskApp.uploaded_file",
+            "component_code": "def uploaded_file(self, filename):\\n        return send_from_directory(self.app.config['UPLOAD_FOLDER'], filename)",
+            "component_description": "File serving route for uploaded files, allowing direct access to files in the uploads folder."
+        },
+        {
+            "component_type": "METHOD_DEFINITION",
+            "component_name": "FlaskApp.run",
+            "component_code": "def run(self):\\n        self.app.run()",
+            "component_description": "Method to start the Flask application server."
+        }
+    ],
+    "overall_description": "A simple Flask web application featuring user authentication, note management, and file upload capabilities. The application uses in-memory storage for user credentials and notes, and provides basic security measures like session management and file uploads. The architecture is straightforward, with clear separation of concerns between routes, templates, and business logic."
+}
+"""
+]
+
 few_shots["java"] = [
 """
 import java.util.ArrayList;
