@@ -6,11 +6,11 @@ MalCodeAI is an AI-powered system that analyzes code files by breaking them into
 
 ## 🛠 Features
 
-- **Code Intent Verification** – Uses DeepSeek Coder V2 to generate a description of the code and compare it with the user-provided description.  
+- **Code Intent Verification** – Uses Qwen2.5-Coder-3B-instruct to generate a description of the code and compare it with the user-provided description.  
 - **Program Decomposition** – Splits the program into independent code components for analysis.  
 - **Security Scoring** – Assigns a robustness score (1-10) to each component based on its security and fail-safety.  
 - **Deep Security Inspection** – Analyzes vulnerable components (score < 5) for threats, backdoors, and exploits.  
-- **Explainability & Mitigation** – Provides detailed reports on vulnerabilities and suggests fixes.  
+- **Explainability & Mitigation** – Explains the possible ways in which your code can be exploited from a red-hat perspective and sugests code fixes to eradicate threats.  
 
 ---
 
@@ -20,7 +20,7 @@ MalCodeAI is an AI-powered system that analyzes code files by breaking them into
 2. **Code Understanding:** `deepseek-coder-1.3b-instruct` generates a description of the code, which is then compared with the user’s description using `gtr-t5-large` for semantic similarity.  
 3. **Code Splitting:** The system extracts independent code components using program slicing and AST-based analysis.  
 4. **Security Analysis:** Each component is assigned a robustness score based on static and AI-powered security analysis.  
-5. **Detailed Security Report:** Components scoring below 5 undergo further checks to detect potential malicious behavior and recommend fixes.  
+5. **Detailed Security Scrutiny:** Components scoring below 5 undergo further checks to detect potential malicious behavior and recommend fixes.  
 
 ---
 
@@ -83,11 +83,6 @@ print(result)
 
 ---
 
-## 🤝 Contributing
-
-Want to contribute? Please fork the repo and submit a pull request!
-
----
 
 ## 🐜 License
 
