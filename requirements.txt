@@ -1,0 +1,11 @@
+scikit-learn
+torch
+numpy
+scipy
+mlx
+mlx-lm
+transformers
+torchvision
+huggingface-hub
+jupyter
+ollama

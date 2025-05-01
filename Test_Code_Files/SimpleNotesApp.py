@@ -3,15 +3,15 @@ import os
 import uuid
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # Very weak secret
+app.secret_key = 'supersecretkey'
 app.config['UPLOAD_FOLDER'] = 'uploads'
-app.debug = True  # Dangerous in production!
+app.debug = True
 
 # In-memory storage
 users = {"admin": "password123"}
 notes = {}
 
-# Ensure upload folder exists
+# Ensuring upload folder exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Templates

@@ -47,7 +47,7 @@ python Pipeline.py
 ```
 
 2. Enter the path of the code file you want to analyze. <br>
-NOTE: Some code files are available in the 'Test_Code_Files' directory for testing purposes.
+NOTE: Some safe and unsafe code files are available in the 'Test_Code_Files' directory for testing purposes.
 
 3. The analysis output will be displayed on the console as well as stored in the 'Output_Files' directory.
 

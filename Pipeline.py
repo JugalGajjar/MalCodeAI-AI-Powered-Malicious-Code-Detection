@@ -13,7 +13,7 @@ def parse_and_print_json(response):
     except json.JSONDecodeError as e:
         return None
     
-model, tokenizer = load(path_or_hf_repo="Phase_1_MLX_Fine_Tuned")
+model, tokenizer = load(path_or_hf_repo="jugalgajjar/CSCI6366-Spring2025-MalCodeAI-Phase-1")
 
 system_prompt = """
 You are an expert code analyzer that outputs ONLY valid and parsable JSON. Strictly follow these rules:
@@ -85,7 +85,7 @@ if json_response is None:
     print("System crashed!")
     sys.exit()
 
-model, tokenizer = load(path_or_hf_repo="Phase_2_MLX_Fine_Tuned")
+model, tokenizer = load(path_or_hf_repo="jugalgajjar/CSCI6366-Spring2025-MalCodeAI-Phase-2")
 
 system_prompt = """
 You are a highly skilled AI Security Code Auditor designed to deeply analyze source code components.
