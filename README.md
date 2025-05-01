@@ -41,13 +41,15 @@ pip install -r requirements.txt
 
 1. Execute the main pipeline.
 ```bash
+
 python Pipeline.py
+
 ```
 
 2. Enter the path of the code file you want to analyze. <br>
-NOTE: Some code files are available in 'Test_Code_Files' directory for testing purpose.
+NOTE: Some code files are available in the 'Test_Code_Files' directory for testing purposes.
 
-3. The analysis output will be displayed on the console as well as stored in 'Output_Files' directory.
+3. The analysis output will be displayed on the console as well as stored in the 'Output_Files' directory.
 
 ---
 
@@ -108,7 +110,7 @@ Final Model link: [Hugging Face](https://huggingface.co/jugalgajjar/CSCI6366-Spr
 ## Results:
 
 **Quantitative**: Cross-Entropy Loss <br>
-**Qualitative**: Developer feedback on the usefulness, readability, and interpretability of the analysis
+**Qualitative**: Developer feedback on the usefulness, readability, and interpretability of the analysis.
 
 ### Usefulness Score
 All Feedback Scores: 8, 7, 9, 6, 9, 8, 9, 9, 10, 10, 5, 9, 6, 9, 7
@@ -139,11 +141,6 @@ All Feedback Scores: 8, 8, 7, 8, 8, 6, 6, 8, 7, 8, 9, 7, 7, 10, 4
 
 ---
 
-## License
+## License:
 
 This project is licensed under the MIT License.
-
----
-
-## Contact
-**Jugal Gajjar** [LinkedIn](https://www.linkedin.com/in/jugal-gajjar/)
