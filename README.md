@@ -1,4 +1,4 @@
-# MalCodeAI - AI-Powered Malicious Code Detection
+# MalCodeAI: AI-Powered Malicious Code Detection
 
 This project aimed to develop an AI-driven malicious code detection system with explainability, and language-agnostic capabilities (detect malicious code across multiple programming languages without depending on the syntax or structure of just one language), making it scalable and adaptable for different coding environments.
 
